@@ -37,44 +37,66 @@ def call_gemini(prompt):
 
 ### 🔹 Function to create Storyline prompt
 def generate_storyline_prompt(prompt, lore, tone, length):
-    """
-    Constructs a structured storyline prompt for AI.
-    """
     return f"""
-    Create a compelling {tone.lower()} storyline based on the following details:
-    - **Main Idea:** {prompt}
-    - **Lore:** {lore}
-    - **Length:** {length} words
-    Make it engaging, immersive, and rich in detail.
+    Generate a simple and engaging {tone.lower()} story in easy-to-understand English. 
+    Always begin with 'Title: [Story Title]' on first line.
+    Main elements to include:
+    - Core idea: {prompt}
+    - Existing lore: {lore}
+    Story requirements:
+    1. Maximum {length} words
+    2. Clear beginning-middle-end structure
+    3. 2-3 memorable characters
+    4. Simple vocabulary (A2/B1 English level)
+    5. Include at least one plot twist
+    Write in third-person perspective. Avoid complex metaphors.
     """
 
 ### 🔹 Function to create Backstory prompt
 def generate_backstory_prompt(character_name, race, role, traits, strengths_weaknesses):
-    """
-    Constructs a detailed backstory prompt for AI.
-    """
     return f"""
-    Create a detailed backstory for the following character:
-    - **Name:** {character_name}
-    - **Race:** {race}
-    - **Role:** {role}
-    - **Traits:** {", ".join(traits)}
-    - **Strengths & Weaknesses:** {strengths_weaknesses}
-    Make the story engaging, immersive, and lore-rich.
+    Write a character backstory (no title) in simple English with these rules:
+    Character Details:
+    - Name: {character_name}
+    - Race: {race}
+    - Role: {role}
+    - Key traits: {traits}
+    - Strengths/Weaknesses: {strengths_weaknesses}
+    
+    Requirements:
+    1. Maximum 500 words
+    2. No title
+    3. Focus on personal history and motivations
+    4. Include 1 formative childhood event
+    5. Mention 1 important relationship
+    6. Explain how they acquired their skills
+    7. Use simple sentences (max 15 words each)
+    8. Avoid fantasy jargon
+    Write in third-person perspective.
     """
 
 ### 🔹 Function to create Lore prompt
 def generate_lore_prompt(content_type, lore_name, era, themes, tone):
-    """
-    Constructs a lore-building prompt for AI.
-    """
     return f"""
-    Generate a {tone.lower()} {content_type.lower()} about the world named {lore_name}.
-    - **Era:** {era}
-    - **Themes:** {", ".join(themes)}
-    Make it immersive, detailed, and rich in world-building elements.
+    Create detailed lore content without a title using these elements:
+    - World name: {lore_name}
+    - Content type: {content_type}
+    - Era: {era}
+    - Themes: {themes}
+    - Tone: {tone}
+    
+    Requirements:
+    1. No title
+    2. Use simple terminology
+    3. Focus on daily life aspects
+    4. Explain cultural traditions
+    5. Describe unique geography
+    6. Mention common occupations
+    7. Keep paragraphs short (max 4 sentences)
+    8. Avoid proper nouns unless specified
+    9. Write in clear, conversational English
+    Include both physical and social aspects of the world.
     """
-
 ### **📌 API Routes**
 @app.route("/generate_backstory", methods=["POST"])
 def generate_backstory():
