@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Wand2, Save } from "lucide-react";
 
-const tones = ["Dark", "Lighthearted", "Sci-fi", "Fantasy", "Mystery", "Romance"];
+const tones = ["Dark", "Lighthearted", "Sci-fi", "Fantasy", "Mystery", "Romance","Epic"];
 
 // Function to change the favicon dynamically
 const changeFavicon = (iconURL: string): void => {
@@ -58,7 +58,7 @@ export default function StorylineGenerator() {
     changeFavicon("/loading-favicon.ico"); // Change favicon to loading
 
     try {
-      const response = await fetch("http://localhost:5000/generate_storyline", {
+      const response = await fetch("https://legendary-chronicles-1.onrender.com/generate_storyline", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

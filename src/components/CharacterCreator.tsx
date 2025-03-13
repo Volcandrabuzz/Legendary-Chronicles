@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Wand2, PenTool} from "lucide-react"; // Loader2 for animated spinner
 
 const races = ["Human", "Elf", "Dwarf", "Orc", "Cyborg", "Android", "Alien"];
-const roles = ["Hero", "Villain", "Sidekick", "Mentor", "Anti-hero", "Supporting"];
+const roles = ["Hero", "Villain", "Sidekick", "Mentor", "Anti-hero", "Supporting","Warrior"];
 const traitsList = [
   "Brave", "Cunning", "Loyal", "Mysterious", "Charismatic", "Intelligent",
   "Strong", "Agile", "Wise", "Foolish", "Honorable", "Treacherous"
@@ -37,7 +37,7 @@ export default function CharacterCreator() {
     const requestData = { characterName, race, role, traits, strengthsWeaknesses };
 
     try {
-      const response = await fetch("http://localhost:5000/generate_backstory", {
+      const response = await fetch("https://legendary-chronicles-1.onrender.com/generate_backstory", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(requestData),
