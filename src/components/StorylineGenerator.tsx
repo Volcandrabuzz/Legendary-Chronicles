@@ -1,20 +1,7 @@
 import { useState } from "react";
 import { Wand2, Save } from "lucide-react";
 
-const tones = ["Dark", "Lighthearted", "Sci-fi", "Fantasy", "Mystery", "Romance","Epic"];
-
-// Function to change the favicon dynamically
-const changeFavicon = (iconURL: string): void => {
-  let link = document.querySelector<HTMLLinkElement>("link[rel='icon']");
-  
-  if (!link) {
-    link = document.createElement("link");
-    link.rel = "icon";
-    document.head.appendChild(link);
-  }
-  
-  link.href = iconURL;
-};
+const tones = ["Dark", "Lighthearted", "Sci-fi", "Fantasy", "Mystery", "Romance", "Epic"];
 
 export default function StorylineGenerator() {
   const [storyPrompt, setStoryPrompt] = useState<string>("");
@@ -24,7 +11,6 @@ export default function StorylineGenerator() {
   const [generatedStory, setGeneratedStory] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
-  // Function to save the story locally
   const handleSaveStory = () => {
     if (!generatedStory) {
       alert("No story generated yet!");
@@ -40,7 +26,6 @@ export default function StorylineGenerator() {
     document.body.removeChild(link);
   };
 
-  // Function to generate a story (calls backend API)
   const handleGenerateStory = async () => {
     if (!storyPrompt) {
       alert("Please enter a story prompt!");
@@ -54,8 +39,7 @@ export default function StorylineGenerator() {
       storyLength,
     };
 
-    setLoading(true); // Show loading state
-    changeFavicon("/loading-favicon.ico"); // Change favicon to loading
+    setLoading(true);
 
     try {
       const response = await fetch("https://legendary-chronicles-1.onrender.com/generate_storyline", {
@@ -76,23 +60,26 @@ export default function StorylineGenerator() {
       console.error("Error generating story:", error);
       setGeneratedStory("An error occurred. Please try again.");
     } finally {
-      setLoading(false); // Hide loading state
-      changeFavicon("/favicon.ico"); // Restore default favicon
+      setLoading(false);
     }
   };
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8 text-indigo-600">Dynamic Storyline Generator</h1>
+      <h1 className="text-3xl font-bold mb-8 text-indigo-600 dark:text-indigo-400">
+        Dynamic Storyline Generator
+      </h1>
 
-      <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
         <div className="space-y-6">
           {/* Story Prompt */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Story Prompt</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+              Story Prompt
+            </label>
             <input
               type="text"
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
               placeholder="Describe the main plot or theme..."
               value={storyPrompt}
               onChange={(e) => setStoryPrompt(e.target.value)}
@@ -101,9 +88,11 @@ export default function StorylineGenerator() {
 
           {/* Existing Lore */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Existing Lore (Optional)</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+              Existing Lore (Optional)
+            </label>
             <textarea
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 h-32"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white h-32"
               placeholder="Paste any existing lore or background information..."
               value={existingLore}
               onChange={(e) => setExistingLore(e.target.value)}
@@ -113,9 +102,11 @@ export default function StorylineGenerator() {
           {/* Tone & Story Length */}
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Tone & Style</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+                Tone & Style
+              </label>
               <select
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 value={selectedTone}
                 onChange={(e) => setSelectedTone(e.target.value)}
               >
@@ -128,7 +119,7 @@ export default function StorylineGenerator() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                 Story Length: {storyLength} words
               </label>
               <input
@@ -138,7 +129,7 @@ export default function StorylineGenerator() {
                 step="50"
                 value={storyLength}
                 onChange={(e) => setStoryLength(parseInt(e.target.value))}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                className="w-full h-2 bg-gray-200 dark:bg-gray-600 rounded-lg appearance-none cursor-pointer"
               />
             </div>
           </div>
@@ -146,7 +137,7 @@ export default function StorylineGenerator() {
           {/* Buttons */}
           <div className="flex space-x-4">
             <button
-              className="flex items-center px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+              className="flex items-center px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
               onClick={handleGenerateStory}
               disabled={loading}
             >
@@ -182,7 +173,7 @@ export default function StorylineGenerator() {
               )}
             </button>
             <button
-              className="flex items-center px-6 py-2 border border-gray-300 rounded-lg hover:border-violet-500 hover:bg-gray-50"
+              className="flex items-center px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-white"
               onClick={handleSaveStory}
             >
               <Save className="w-5 h-5 mr-2" />
@@ -193,10 +184,10 @@ export default function StorylineGenerator() {
       </div>
 
       {/* Generated Story Display */}
-      <div className="bg-white rounded-xl shadow-lg p-6">
-        <h2 className="text-xl font-semibold mb-4">Generated Story</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+        <h2 className="text-xl font-semibold mb-4 dark:text-white">Generated Story</h2>
         <textarea
-          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 h-64"
+          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white h-64"
           placeholder="Your generated story will appear here..."
           value={generatedStory}
           readOnly
