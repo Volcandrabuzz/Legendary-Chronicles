@@ -13,6 +13,7 @@ export default function LoreGenerator() {
   const [era, setEra] = useState(eras[0]);
   const [tone, setTone] = useState(tones[0]);
   const [generatedLore, setGeneratedLore] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const toggleTheme = (theme: string) => {
     setSelectedThemes((prev) =>
@@ -21,6 +22,8 @@ export default function LoreGenerator() {
   };
 
   const generateLore = async () => {
+    setLoading(true);
+
     const requestBody = {
       content_type: contentType,
       lore_name: loreName,
@@ -37,14 +40,12 @@ export default function LoreGenerator() {
       });
 
       const data = await response.json();
-      if (data.lore) {
-        setGeneratedLore(data.lore);
-      } else {
-        alert("Error generating lore. Please try again.");
-      }
+      setGeneratedLore(data.lore || "Error generating lore. Please try again.");
     } catch (error) {
       console.error("Error:", error);
       alert("Failed to connect to the server.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -133,13 +134,48 @@ export default function LoreGenerator() {
             </select>
           </div>
 
-          {/* Buttons */}
+          {/* Buttons (Horizontally Aligned) */}
           <div className="flex space-x-4">
-            <button className="flex items-center px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700" onClick={generateLore}>
-              <Wand2 className="w-5 h-5 mr-2" />
-              Generate Lore
+            {/* Generate Lore Button with Animated Spinner */}
+            <button
+              onClick={generateLore}
+              className="flex items-center justify-center px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <svg
+                    className="animate-spin h-5 w-5 mr-2 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v4l3.5-3.5L12 0v4a8 8 0 018 8h-4l3.5 3.5L20 12h-4a8 8 0 01-8 8v-4l-3.5 3.5L4 12z"
+                    ></path>
+                  </svg>
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Wand2 className="w-5 h-5 mr-2" />
+                  Generate Lore
+                </>
+              )}
             </button>
-            <button className="flex items-center px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+
+            {/* Refine Button */}
+            <button className="flex items-center justify-center px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
               <PenTool className="w-5 h-5 mr-2" />
               Refine
             </button>

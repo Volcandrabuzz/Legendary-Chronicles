@@ -1,24 +1,28 @@
 import { useState } from "react";
-import { Wand2, RotateCcw, Save } from "lucide-react";
+import { Wand2, Save } from "lucide-react";
 
 const tones = ["Dark", "Lighthearted", "Sci-fi", "Fantasy", "Mystery", "Romance"];
 
-export default function StorylineGenerator() {
-  const [storyPrompt, setStoryPrompt] = useState("");
-  const [existingLore, setExistingLore] = useState("");
-  const [selectedTone, setSelectedTone] = useState(tones[0]);
-  const [storyLength, setStoryLength] = useState(500);
-  const [generatedStory, setGeneratedStory] = useState("");
-  const [loading, setLoading] = useState(false);
+// Function to change the favicon dynamically
+const changeFavicon = (iconURL: string): void => {
+  let link = document.querySelector<HTMLLinkElement>("link[rel='icon']");
+  
+  if (!link) {
+    link = document.createElement("link");
+    link.rel = "icon";
+    document.head.appendChild(link);
+  }
+  
+  link.href = iconURL;
+};
 
-  // Function to clear all inputs
-  const handleRegenerate = () => {
-    setStoryPrompt("");
-    setExistingLore("");
-    setSelectedTone(tones[0]);
-    setStoryLength(500);
-    setGeneratedStory("");
-  };
+export default function StorylineGenerator() {
+  const [storyPrompt, setStoryPrompt] = useState<string>("");
+  const [existingLore, setExistingLore] = useState<string>("");
+  const [selectedTone, setSelectedTone] = useState<string>(tones[0]);
+  const [storyLength, setStoryLength] = useState<number>(500);
+  const [generatedStory, setGeneratedStory] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   // Function to save the story locally
   const handleSaveStory = () => {
@@ -51,6 +55,7 @@ export default function StorylineGenerator() {
     };
 
     setLoading(true); // Show loading state
+    changeFavicon("/loading-favicon.ico"); // Change favicon to loading
 
     try {
       const response = await fetch("http://localhost:5000/generate_storyline", {
@@ -72,6 +77,7 @@ export default function StorylineGenerator() {
       setGeneratedStory("An error occurred. Please try again.");
     } finally {
       setLoading(false); // Hide loading state
+      changeFavicon("/favicon.ico"); // Restore default favicon
     }
   };
 
@@ -144,19 +150,36 @@ export default function StorylineGenerator() {
               onClick={handleGenerateStory}
               disabled={loading}
             >
-              {loading ? "Generating..." : (
+              {loading ? (
+                <>
+                  <svg
+                    className="animate-spin h-5 w-5 mr-2 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v4l3.5-3.5L12 0v4a8 8 0 018 8h-4l3.5 3.5L20 12h-4a8 8 0 01-8 8v-4l-3.5 3.5L4 12z"
+                    ></path>
+                  </svg>
+                  Generating...
+                </>
+              ) : (
                 <>
                   <Wand2 className="w-5 h-5 mr-2" />
                   Generate Story
                 </>
               )}
-            </button>
-            <button
-              className="flex items-center px-6 py-2 border border-gray-300 rounded-lg hover:border-violet-500 hover:bg-gray-50"
-              onClick={handleRegenerate}
-            >
-              <RotateCcw className="w-5 h-5 mr-2" />
-              Regenerate Section
             </button>
             <button
               className="flex items-center px-6 py-2 border border-gray-300 rounded-lg hover:border-violet-500 hover:bg-gray-50"
