@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Book, Users, Scroll, Home } from 'lucide-react';
+import Lottie from "lottie-react";
 import { ThemeProvider } from './context/ThemeContext';
-import ThemeToggle from './components/ThemeToggle';
 import StorylineGenerator from './components/StorylineGenerator';
 import CharacterCreator from './components/CharacterCreator';
 import LoreGenerator from './components/LoreGenerator';
+import storytellingAnimation from "./assets/animations/animation.json"; // Import animation
 
 function App() {
   const [activeTab, setActiveTab] = useState('home');
@@ -112,13 +113,20 @@ function App() {
                   <span className="font-medium">Lore</span>
                 </button>
               </div>
-              <div className="flex items-center">
-                <ThemeToggle />
-              </div>
             </div>
           </div>
         </nav>
-        <main className="max-w-7xl mx-auto py-6 px-4">{renderContent()}</main>
+        <main className="max-w-7xl mx-auto py-6 px-4">
+          {renderContent()}
+
+          {/* Lottie Animation at Bottom */}
+          {/* Lottie Animation at Bottom */}
+          <div className="flex justify-center mt-[-10px]">
+            <Lottie animationData={storytellingAnimation} loop={true} className="w-72 h-72" />
+          </div>
+
+
+        </main>
       </div>
     </ThemeProvider>
   );
