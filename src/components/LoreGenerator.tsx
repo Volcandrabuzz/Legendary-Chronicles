@@ -186,7 +186,7 @@ function App() {
 
         {/* Generated Lore Display */}
         <div className="bg-gray-800 rounded-xl shadow-lg p-6">
-          <h2 className="text-xl font-semibold mb-4 text-purple-400">Generated Lore Content</h2>
+          <h2 className="text-xl font-semibold mb-4 dark:text-white">Generated Lore Content</h2>
           <textarea 
             className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 text-gray-100 h-64" 
             placeholder="Your generated lore content will appear here..." 
